@@ -7,10 +7,10 @@ E2 DB 0DH , 0AH , 'ODD' ,0DH , 0AH , '$'       ; setting up output strings
 
 .CODE
     MAIN PROC
-        MOV AX, @DATA                          ; loading data input string output register
-        MOV DS, AX                             ; loading data input string output register
+        MOV AX, @DATA                          ; loading data into string output register
+        MOV DS, AX                             ; loading data into string output register
         
-        BEGIN:                                 ; start loop for taking input while not zero
+        BEGIN:                                 ; starts loop for taking input while not zero
         MOV AH,1                               ; setting up input parameter
         INT 21H                                ; taking input
         
