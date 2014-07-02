@@ -1,0 +1,18 @@
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+
+.CODE
+
+    MAIN PROC
+        MOV AH, 2           ; SETTING INPUT
+        MOV CX, 10          ; COUNTER INITIALIZATION
+        MOV DL, 'A'         ; OUTPUT STARTER
+    PRINT_LOOP:             ; LOOP LABEL
+        INT 21H             ; OUTPUTTING
+        INC DL              ; INCREMENTING VALUE
+        DEC CX              ; DECREMENTING COUNTER
+        JNZ PRINT_LOOP      ; LABEL JUMP / CONTINUE LOOP WHILE NOT ZERO
+    MAIN ENDP
+END MAIN
