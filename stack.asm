@@ -1,0 +1,75 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+    MSG DB " TIMES $"
+    
+.CODE
+    MAIN PROC
+    
+    ; TAKING INPUT OF 5 NUMBERS
+    MOV CX, 5
+    TAKE_INPUT:
+        MOV AH, 1
+        INT 21H
+        PUSH AX         ; PUSHING INPUTTED DATA TO STACK
+        LOOP TAKE_INPUT    
+    
+    ; PRINTING NEWLINE
+    MOV AH, 2
+    MOV DL, 0AH
+    INT 21H
+    MOV AH, 2
+    MOV DL, 0DH
+    INT 21H
+    
+    ; TAKING INPUT OF QUERY NUMBER
+    MOV AH, 1
+    INT 21H
+    MOV BL, AL          ; MOVING THE QUERY NUMBER TO BL
+    
+    ; PRINTING NEWLINE
+    MOV AH, 2
+    MOV DL, 0AH
+    INT 21H
+    MOV AH, 2
+    MOV DL, 0DH
+    INT 21H
+    
+    MOV BH, 0           ; BH FOR FREQUENCY COUNTING
+    
+    MOV CX, 5           ; STACK POPING LOOP & DATA PROCESSING
+    DOING_PROCESSING:
+        POP AX          ; POPING DATA FROM STACK
+        MOV DL, AL
+        CMP DL, BL      ; COMPAREING WHETHER POPUP VALUE EQUALS TO QUERY VALUE OR NOT
+        JZ COUNT
+        JMP SKIP        ; SKIPING COUNTING IF NOT SAME
+        
+        COUNT:
+            ADD BH, 1   ; IF SAME THEN INCREASING COUNTER
+        SKIP:
+        LOOP DOING_PROCESSING
+    
+    ; NEXT LINES TO FORMATTING & PRINTING OUTPUT
+    MOV AH, 2
+    MOV DL, BL
+    INT 21H
+    MOV DL, ' '
+    INT 21H
+    MOV DL, ','
+    INT 21H
+    MOV DL, ' '
+    INT 21H
+    
+    MOV DL, BH
+    ADD DL, 30H
+    INT 21H
+    
+    MOV AX, @DATA
+    MOV DS, AX
+    LEA DX,MSG
+    MOV AH, 9
+    INT 21H
+        
+    MAIN ENDP
+END MAIN
